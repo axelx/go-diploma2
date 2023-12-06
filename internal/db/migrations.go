@@ -14,6 +14,13 @@ func createTable(db *sqlx.DB) error {
 				);
 
 				CREATE TABLE IF NOT EXISTS entities (
+				    id serial PRIMARY KEY,
+				    user_id int NOT NULL UNIQUE,
+				    text text,
+				    BankCard varchar(100) NOT NULL,
+					created_at_time_stamp INT NOT NULL, --DEFAULT CURRENT_TIME,
+					created_at TIMESTAMP NOT NULL, --DEFAULT CURRENT_TIME,
+					uploaded_at TIMESTAMP NOT NULL --DEFAULT CURRENT_TIME,
 				);
 			`)
 

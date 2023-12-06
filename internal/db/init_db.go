@@ -14,6 +14,7 @@ func InitDB(url string) (*sqlx.DB, error) {
 	if err != nil {
 		return db, err
 	}
+
 	db.SetMaxOpenConns(10)
 
 	// миграции

@@ -20,13 +20,4 @@ type Entity struct {
 	UpdatedAt          *time.Time
 }
 
-type History struct {
-	ID           int
-	EntityID     int
-	ChangedField string
-	FieldBefore  string
-	FieldAfter   string
-	ChangedTime  int
-}
-
 type JWT string
