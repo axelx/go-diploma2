@@ -3,8 +3,9 @@ package ui
 import (
 	"errors"
 	"fmt"
-	"github.com/manifoldco/promptui"
 	"os"
+
+	"github.com/manifoldco/promptui"
 )
 
 type PromptContent struct {

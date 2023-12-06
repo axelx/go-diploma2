@@ -2,10 +2,11 @@ package utils
 
 import (
 	"fmt"
-	"github.com/axelx/go-diploma2/internal/models"
-	pb "github.com/axelx/go-diploma2/internal/proto"
 	"strconv"
 	"time"
+
+	"github.com/axelx/go-diploma2/internal/models"
+	pb "github.com/axelx/go-diploma2/internal/proto"
 )
 
 func IntToStr(i int) string {

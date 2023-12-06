@@ -3,12 +3,13 @@ package commands
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/axelx/go-diploma2/internal/models"
 	pb "github.com/axelx/go-diploma2/internal/proto"
 	servicejwt "github.com/axelx/go-diploma2/internal/service/jwt"
 	"github.com/axelx/go-diploma2/internal/utils"
-	"log"
-	"time"
 )
 
 // func EntityHandlerUpdate обновляем пользовательские данные

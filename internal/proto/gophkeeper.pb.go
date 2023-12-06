@@ -20,23 +20,16 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-//	type User struct {
-//	   ID           int
-//	   Login       string
-//	   Password    string
-//	   Jwt         string
-//	   Description string
-//	}
 type User struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID          int32  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`                  // id user
-	Login       string `protobuf:"bytes,2,opt,name=Login,proto3" json:"Login,omitempty"`             // параметр, принимающий значение gauge или counter
-	Password    string `protobuf:"bytes,3,opt,name=Password,proto3" json:"Password,omitempty"`       // значение метрики в случае передачи counter
-	Jwt         string `protobuf:"bytes,4,opt,name=Jwt,proto3" json:"Jwt,omitempty"`                 // значение метрики в случае передачи counter
-	Description string `protobuf:"bytes,5,opt,name=Description,proto3" json:"Description,omitempty"` // значение метрики в случае передачи counter
+	ID          int32  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Login       string `protobuf:"bytes,2,opt,name=Login,proto3" json:"Login,omitempty"`
+	Password    string `protobuf:"bytes,3,opt,name=Password,proto3" json:"Password,omitempty"`
+	Jwt         string `protobuf:"bytes,4,opt,name=Jwt,proto3" json:"Jwt,omitempty"`
+	Description string `protobuf:"bytes,5,opt,name=Description,proto3" json:"Description,omitempty"`
 }
 
 func (x *User) Reset() {
@@ -158,7 +151,7 @@ type RegisterUserResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"` // ошибка
+	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (x *RegisterUserResponse) Reset() {
@@ -253,7 +246,7 @@ type AuthUserResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Jwt   string `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
-	Error string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"` // ошибка
+	Error string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (x *AuthUserResponse) Reset() {
@@ -307,13 +300,13 @@ type Entity struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID                 int32  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`                                 // имя метрики
-	UserID             int32  `protobuf:"varint,2,opt,name=UserID,proto3" json:"UserID,omitempty"`                         // имя метрики
-	Text               string `protobuf:"bytes,3,opt,name=Text,proto3" json:"Text,omitempty"`                              // параметр, принимающий значение gauge или counter
-	BankCard           int64  `protobuf:"varint,4,opt,name=BankCard,proto3" json:"BankCard,omitempty"`                     // значение метрики в случае передачи counter
-	CreatedAtTimestamp int64  `protobuf:"varint,5,opt,name=CreatedAtTimestamp,proto3" json:"CreatedAtTimestamp,omitempty"` // значение метрики в случае передачи gauge
-	CreatedAt          string `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`                    // значение метрики в случае передачи gauge
-	UpdatedAt          string `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`                    // значение метрики в случае передачи gauge
+	ID                 int32  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	UserID             int32  `protobuf:"varint,2,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	Text               string `protobuf:"bytes,3,opt,name=Text,proto3" json:"Text,omitempty"`
+	BankCard           int64  `protobuf:"varint,4,opt,name=BankCard,proto3" json:"BankCard,omitempty"`
+	CreatedAtTimestamp int64  `protobuf:"varint,5,opt,name=CreatedAtTimestamp,proto3" json:"CreatedAtTimestamp,omitempty"`
+	CreatedAt          string `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	UpdatedAt          string `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
 }
 
 func (x *Entity) Reset() {

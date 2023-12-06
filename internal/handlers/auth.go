@@ -3,15 +3,17 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"strings"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"github.com/axelx/go-diploma2/internal/models"
 	pb "github.com/axelx/go-diploma2/internal/proto"
 	serviceentity "github.com/axelx/go-diploma2/internal/service/entity"
 	servicejwt "github.com/axelx/go-diploma2/internal/service/jwt"
 	serviceuser "github.com/axelx/go-diploma2/internal/service/user"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"strings"
 )
 
 // ProtoHandler data for gRPC server

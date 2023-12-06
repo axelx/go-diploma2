@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/axelx/go-diploma2/internal/models"
 	"github.com/jmoiron/sqlx"
+
+	"github.com/axelx/go-diploma2/internal/models"
 )
 
 func CreateNewUser(ctx context.Context, db *sqlx.DB, login, password string) error {

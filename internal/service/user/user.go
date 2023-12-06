@@ -3,10 +3,12 @@ package user
 import (
 	"context"
 	"fmt"
+
+	"github.com/jmoiron/sqlx"
+
 	"github.com/axelx/go-diploma2/internal/db"
 	"github.com/axelx/go-diploma2/internal/models"
 	servicejwt "github.com/axelx/go-diploma2/internal/service/jwt"
-	"github.com/jmoiron/sqlx"
 )
 
 type User struct {

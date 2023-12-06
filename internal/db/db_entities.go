@@ -3,8 +3,10 @@ package db
 import (
 	"context"
 	"fmt"
-	"github.com/axelx/go-diploma2/internal/models"
+
 	"github.com/jmoiron/sqlx"
+
+	"github.com/axelx/go-diploma2/internal/models"
 )
 
 func ReadEntity(ctx context.Context, db *sqlx.DB, userID int) (models.Entity, error) {

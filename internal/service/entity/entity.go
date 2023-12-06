@@ -3,9 +3,11 @@ package entity
 import (
 	"context"
 	"fmt"
+
+	"github.com/jmoiron/sqlx"
+
 	"github.com/axelx/go-diploma2/internal/db"
 	"github.com/axelx/go-diploma2/internal/models"
-	"github.com/jmoiron/sqlx"
 )
 
 type Entity struct {

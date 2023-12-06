@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+
 	pb "github.com/axelx/go-diploma2/internal/proto"
 	servicejwt "github.com/axelx/go-diploma2/internal/service/jwt"
 	"github.com/axelx/go-diploma2/internal/utils"

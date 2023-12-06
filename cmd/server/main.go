@@ -1,15 +1,17 @@
 package main
 
 import (
+	"log"
+	"net"
+
+	"google.golang.org/grpc"
+
 	config "github.com/axelx/go-diploma2/internal/config/server"
 	pg "github.com/axelx/go-diploma2/internal/db"
 	"github.com/axelx/go-diploma2/internal/handlers"
-	"github.com/axelx/go-diploma2/internal/proto"
+	go_diploma2 "github.com/axelx/go-diploma2/internal/proto"
 	"github.com/axelx/go-diploma2/internal/service/entity"
 	"github.com/axelx/go-diploma2/internal/service/user"
-	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func main() {

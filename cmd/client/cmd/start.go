@@ -5,14 +5,16 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+
+	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
 	"github.com/axelx/go-diploma2/internal/commands"
 	config "github.com/axelx/go-diploma2/internal/config/client"
 	pb "github.com/axelx/go-diploma2/internal/proto"
 	"github.com/axelx/go-diploma2/internal/ui"
-	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"log"
 )
 
 // startCmd represents the start command

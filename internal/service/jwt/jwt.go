@@ -4,14 +4,14 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/axelx/go-diploma2/internal/models"
-	"github.com/axelx/go-diploma2/internal/utils"
 	"log"
 	"strings"
-
-	"github.com/dgrijalva/jwt-go"
-
 	"time"
+
+	jwt "github.com/dgrijalva/jwt-go"
+
+	"github.com/axelx/go-diploma2/internal/models"
+	"github.com/axelx/go-diploma2/internal/utils"
 )
 
 var jwtKey = []byte("my_secret_key")
