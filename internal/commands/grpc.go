@@ -13,7 +13,7 @@ import (
 )
 
 // func EntityHandlerUpdate обновляем пользовательские данные
-func EntityHandlerUpdate(userId int, jwt string, c pb.GRPCHandlerClient, txt, bc string) {
+func EntityHandlerUpdate(c pb.GRPCHandlerClient, userId int, jwt string, txt, bc string) {
 	fmt.Println("-EntityHandlerUpdate--: userId: ", userId, "__", c)
 	entity := []*pb.Entity{{
 		//ID:                 1,
@@ -32,7 +32,7 @@ func EntityHandlerUpdate(userId int, jwt string, c pb.GRPCHandlerClient, txt, bc
 }
 
 // func EntityHandler получаем пользовательские данные
-func EntityHandler(userId int, jwt string, c pb.GRPCHandlerClient) models.Entity {
+func EntityHandler(c pb.GRPCHandlerClient, jwt string) models.Entity {
 	resp, err := c.GetEntity(context.Background(), &pb.GetEntityRequest{
 		JWT: jwt,
 	})

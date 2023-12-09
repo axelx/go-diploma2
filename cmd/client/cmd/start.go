@@ -54,7 +54,7 @@ func createNewDialog() {
 	userId, jwt := commands.AuthUser(c, usr, psw)
 
 	for {
-		en := commands.EntityHandler(userId, jwt, c)
+		en := commands.EntityHandler(c, jwt)
 		fmt.Printf("\033[0;36m-------Ваши данныые-------\033[0m\n")
 		fmt.Printf("Text:\033[1;36m%s\033[0m, BankCard:\u001B[1;36m%s\u001B[0m\n", en.Text, en.BankCard)
 
@@ -77,7 +77,7 @@ func createNewDialog() {
 
 			conf := ui.PromptConfirm()
 			if conf == "y" {
-				commands.EntityHandlerUpdate(userId, jwt, c, txt, bc)
+				commands.EntityHandlerUpdate(c, userId, jwt, txt, bc)
 			}
 		} else if s == "Выход" {
 			break
