@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package demo;
+
+option go_package = "github.com/axelx/go-diploma2";
+
+message User {
+  int32 ID = 1;
+  string Login = 2;
+  string Password = 3;
+  string Jwt = 4;
+  string Description = 5;
+}
+
+message RegisterUserRequest {
+  User user = 1;
+}
+
+message RegisterUserResponse {
+  string error = 1;
+}
+
+message AuthUserRequest {
+  User user = 1;
+}
+
+message AuthUserResponse {
+  string jwt = 1;
+  string error = 2;
+}
+
+service GRPCHandler {
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc AuthUser(AuthUserRequest) returns (AuthUserResponse);
+
+  rpc GetEntity(GetEntityRequest) returns (GetEntityResponse);
+  rpc UpdateEntity(UpdateEntityRequest) returns (UpdateEntityResponse);
+}
+
+message Entity {
+  int32 ID       = 1;
+  int32 UserID   = 2;
+  string Text    = 3;
+  int64 BankCard = 4;
+  int64 CreatedAtTimestamp = 5;
+  string CreatedAt = 6;
+  string UpdatedAt = 7;
+}
+
+message GetEntityRequest {
+  int32 UserID = 1;
+  string JWT = 2;
+}
+message GetEntityResponse {
+  Entity entity = 1;
+}
+
+message UpdateEntityRequest {
+  Entity entity = 1;
+  string JWT = 2;
+}
+
+message UpdateEntityResponse {
+  Entity entity = 1;
+}
