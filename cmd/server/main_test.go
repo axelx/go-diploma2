@@ -240,9 +240,9 @@ func TestGetEntity(t *testing.T) {
 		WithArgs(25, "Test_txt", "1111222233334444", timeNowUnix).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
-		})
-	}
-}
+	mock.ExpectQuery("SELECT (.+) FROM entities").
+		WithArgs(25).
+		WillReturnRows(sqlmock.NewRows(columns_ent).AddRow(1, 25, "Test_txt", "1111222233334444", timeNowUnix, tNow, tNow))
 
 	mock.ExpectQuery("SELECT (.+) FROM entities").
 		WithArgs(25).
