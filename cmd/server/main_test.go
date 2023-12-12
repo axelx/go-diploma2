@@ -2,34 +2,32 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"strings"
 	"testing"
 	"time"
 
+	"github.com/jmoiron/sqlx"
+	sqlmock "github.com/zhashkevych/go-sqlxmock"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 
 	"github.com/axelx/go-diploma2/internal/commands"
-	pg "github.com/axelx/go-diploma2/internal/db"
 	"github.com/axelx/go-diploma2/internal/handlers"
 	pb "github.com/axelx/go-diploma2/internal/proto"
 	"github.com/axelx/go-diploma2/internal/service/entity"
 	"github.com/axelx/go-diploma2/internal/service/user"
 )
 
-func server(ctx context.Context) (pb.GRPCHandlerClient, func()) {
+func server(ctx context.Context, db *sqlx.DB) (pb.GRPCHandlerClient, func()) {
+
 	buffer := 101024 * 1024
 	lis := bufconn.Listen(buffer)
 
 	baseServer := grpc.NewServer()
-
-	db, err := pg.InitDB("postgres://user:password@localhost:5464/go-ya-gophkeeper")
-	if err != nil {
-		log.Println("Error not connect to pg", "about ERR", err.Error())
-	}
 
 	usr := user.User{DB: db}
 	ent := entity.Entity{DB: db}
@@ -65,7 +63,32 @@ func server(ctx context.Context) (pb.GRPCHandlerClient, func()) {
 func TestAuth(t *testing.T) {
 	ctx := context.Background()
 
-	client, closer := server(ctx)
+	//
+
+	db, mock, err := sqlmock.Newx()
+	if err != nil {
+		fmt.Println("ERROR_mock_init")
+		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	columns := []string{"id", "login", "password"}
+
+	mock.ExpectQuery("SELECT (.+) FROM users").
+		WithArgs("usr1", "psw1").
+		WillReturnRows(sqlmock.NewRows(columns).AddRow(0, "0", "0"))
+
+	mock.ExpectExec("INSERT INTO users").
+		WithArgs("usr1", "psw1").
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	mock.ExpectQuery("SELECT (.+) FROM users").
+		WithArgs("usr1", "psw1").
+		WillReturnRows(sqlmock.NewRows(columns).AddRow(25, "usr116", "psw1"))
+
+	//
+
+	client, closer := server(ctx, db)
 	defer closer()
 
 	type expectation struct {
@@ -112,11 +135,40 @@ func TestAuth(t *testing.T) {
 func TestUpdateEntity(t *testing.T) {
 	ctx := context.Background()
 
-	client, closer := server(ctx)
+	//
+
+	db, mock, err := sqlmock.Newx()
+	if err != nil {
+		fmt.Println("ERROR_mock_init")
+		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	columns_usr := []string{"id", "login", "password"}
+	columns_ent := []string{"id", "user_id", "text", "bankcard", "created_at_time_stamp", "created_at", "uploaded_at"}
+	timeNowUnix := time.Now().Unix()
+	tNow := time.Now()
+
+	mock.ExpectQuery("SELECT (.+) FROM users").
+		WithArgs("usr1", "psw1").
+		WillReturnRows(sqlmock.NewRows(columns_usr).AddRow(25, "usr116", "psw1"))
+
+	mock.ExpectExec("INSERT INTO entities").
+		WithArgs(25, "Test_txt", "1111222233334444", timeNowUnix).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	mock.ExpectQuery("SELECT (.+) FROM entities").
+		WithArgs(25).
+		WillReturnRows(sqlmock.NewRows(columns_ent).AddRow(1, 25, "Test_txt", "1111222233334444", timeNowUnix, tNow, tNow))
+
+	//
+
+	client, closer := server(ctx, db)
 	defer closer()
 
-	userId, _ := commands.AuthUser(client, "usr", "psw")
+	userId, _ := commands.AuthUser(client, "usr1", "psw1")
 
+	fmt.Println("userId--: ", userId)
 	type expectation struct {
 		out *pb.UpdateEntityResponse
 		err error
@@ -124,9 +176,9 @@ func TestUpdateEntity(t *testing.T) {
 
 	entity := []*pb.Entity{{
 		UserID:             int32(userId),
-		Text:               "Test",
+		Text:               "Test_txt",
 		BankCard:           int64(1111222233334444),
-		CreatedAtTimestamp: time.Now().Unix(),
+		CreatedAtTimestamp: timeNowUnix,
 	}}
 
 	tests := map[string]struct {
@@ -166,10 +218,40 @@ func TestUpdateEntity(t *testing.T) {
 func TestGetEntity(t *testing.T) {
 	ctx := context.Background()
 
-	client, closer := server(ctx)
+	//
+
+	db, mock, err := sqlmock.Newx()
+	if err != nil {
+		fmt.Println("ERROR_mock_init")
+		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	columns_usr := []string{"id", "login", "password"}
+	columns_ent := []string{"id", "user_id", "text", "bankcard", "created_at_time_stamp", "created_at", "uploaded_at"}
+	timeNowUnix := time.Now().Unix()
+	tNow := time.Now()
+
+	mock.ExpectQuery("SELECT (.+) FROM users").
+		WithArgs("usr1", "psw1").
+		WillReturnRows(sqlmock.NewRows(columns_usr).AddRow(25, "usr116", "psw1"))
+
+	mock.ExpectExec("INSERT INTO entities").
+		WithArgs(25, "Test_txt", "1111222233334444", timeNowUnix).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+		})
+	}
+}
+
+	mock.ExpectQuery("SELECT (.+) FROM entities").
+		WithArgs(25).
+		WillReturnRows(sqlmock.NewRows(columns_ent).AddRow(1, 25, "Test_txt", "1111222233334444", timeNowUnix, tNow, tNow))
+
+	client, closer := server(ctx, db)
 	defer closer()
 
-	userId, jwt := commands.AuthUser(client, "usr", "psw")
+	userId, jwt := commands.AuthUser(client, "usr1", "psw1")
 
 	type expectation struct {
 		out *pb.GetEntityResponse
@@ -178,9 +260,9 @@ func TestGetEntity(t *testing.T) {
 
 	entity := []*pb.Entity{{
 		UserID:             int32(userId),
-		Text:               "Test text",
+		Text:               "Test_txt",
 		BankCard:           int64(1111222233334444),
-		CreatedAtTimestamp: time.Now().Unix(),
+		CreatedAtTimestamp: timeNowUnix,
 	}}
 	client.UpdateEntity(context.Background(), &pb.UpdateEntityRequest{
 		Entity: entity[0],
